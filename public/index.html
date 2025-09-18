@@ -1,16 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>API Node.js - Frontend Test</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <h1>Teste de API Node</h1>
-    <p>Api Funcionadno!</p>
-
-    <script src = "app.js"></script>
-    
+    <div class="container">
+        <h1>🚀 Minha API Node.js</h1>
+        <p>Frontend funcionando perfeitamente!</p>
+        <div class="info">
+            <h2>Endpoints Disponíveis:</h2>
+            <ul>
+                <li><a href="/api/test" target="_blank">🧪 API Test</a></li>
+                <li><a href="/health" target="_blank">❤️ Health Check</a></li>
+                <li><a href="/" target="_blank">🏠 API Info</a></li>
+            </ul>
+        </div>
+        <div class="status" id="status">
+            <p>Carregando status da API...</p>
+        </div>
+    </div>
+    <script src="app.js"></script>
 </body>
 </html>
