@@ -13,11 +13,12 @@ app.use(express.urlencoded({ extended: true }))
 // Servir arquivos estáticos da pasta public
 app.use('/app', express.static(path.join(__dirname, '/public')))
 
-// ✅ ROTA PRINCIPAL - Resolver o "CANNOT GET /"
+// ✅ ROTA PRINCIPAL
 app.get('/', (req, res) => {
     res.json({
         message: '🚀 API Node.js está funcionando!',
         timestamp: new Date().toISOString(),
+        version: '1.0.0',
         endpoints: {
             frontend: '/app/',
             login: '/api/seguranca/login',
@@ -32,7 +33,8 @@ app.get('/health', (req, res) => {
     res.json({ 
         status: 'OK', 
         timestamp: new Date().toISOString(),
-        uptime: process.uptime()
+        uptime: Math.floor(process.uptime()),
+        memory: process.memoryUsage()
     })
 })
 
@@ -42,17 +44,16 @@ try {
     app.use('/api', apiRouter)
     console.log('✅ API Router carregado')
 } catch (error) {
-    console.log('⚠️ API Router não encontrado:', error.message)
-}
-
-// Rota catch-all para rotas não encontradas
-app.use('*', (req, res) => {
-    res.status(404).json({
-        error: 'Rota não encontrada',
-        path: req.originalUrl,
-        timestamp: new Date().toISOString()
+    console.log('⚠️ API Router não encontrado - executando sem API completa')
+    
+    // Rota temporária de teste para API
+    app.get('/api/test', (req, res) => {
+        res.json({ 
+            message: 'API Test funcionando!', 
+            timestamp: new Date().toISOString() 
+        })
     })
-})
+}
 
 // Configurar porta
 const port = process.env.PORT || 3000
@@ -61,17 +62,22 @@ const port = process.env.PORT || 3000
 app.listen(port, '0.0.0.0', () => {
     console.log(`🚀 Servidor rodando na porta ${port}`)
     console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`)
+    console.log(`📍 URL: http://localhost:${port}`)
+    
+    // Debug das variáveis de ambiente
     console.log(`🔗 DATABASE_URL: ${process.env.DATABASE_URL ? 'Configurada ✅' : 'Não configurada ❌'}`)
     console.log(`🔐 SECRET_KEY: ${process.env.SECRET_KEY ? 'Configurada ✅' : 'Não configurada ❌'}`)
+    
+    console.log('✅ Servidor iniciado com sucesso!')
 })
 
-// Tratamento de erros
+// Tratamento básico de erros
 process.on('uncaughtException', (err) => {
-    console.error('Erro não capturado:', err)
+    console.error('❌ Erro não capturado:', err.message)
     process.exit(1)
 })
 
 process.on('unhandledRejection', (err) => {
-    console.error('Promise rejeitada:', err)
+    console.error('❌ Promise rejeitada:', err.message)
     process.exit(1)
 })
