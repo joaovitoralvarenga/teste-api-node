@@ -10,10 +10,10 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// Servir arquivos estáticos da pasta public
+
 app.use('/app', express.static(path.join(__dirname, '/public')))
 
-// ✅ ROTA PRINCIPAL
+
 app.get('/', (req, res) => {
     res.json({
         message: '🚀 API Node.js está funcionando!',
