@@ -125,7 +125,7 @@ apiRouter.get(endpoint + 'produtos', checkToken, (req, res) => {
     })
 })
 
-// Obter produto por ID (USER)
+
 apiRouter.get(endpoint + 'produtos/:id', checkToken, (req, res) => {
     knex.select('*').from('produto').where({ id: req.params.id })
     .then(produtos => {
@@ -142,7 +142,7 @@ apiRouter.get(endpoint + 'produtos/:id', checkToken, (req, res) => {
     })
 })
 
-// Criar produto (ADMIN)
+
 apiRouter.post(endpoint + 'produtos', checkToken, isAdmin, (req, res) => {
     knex('produto')
     .insert({
